@@ -1,0 +1,13 @@
+venv/
+venv
+.vs
+db.sqlite3
+__pycache__
+media/
+migrations/
+.vscode/
+.env
+.envdev
+/static/
+dump.rdb
+fonts/
