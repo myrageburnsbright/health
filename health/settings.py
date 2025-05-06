@@ -2,7 +2,11 @@
 from pathlib import Path
 from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from environs import Env
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = Env()
+env.read_env(BASE_DIR/ '.env')
 
 SECRET_KEY = 'django-insecure-aevkgg84m$!yde1!#2elhwf)n8aa+z+gbd%ct)0=(a$5ed4wv7'
 
@@ -269,3 +273,12 @@ JAZZMIN_SETTINGS = {
 }
 
 AUTH_USER_MODEL = 'userauths.User'
+
+#Stripe
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_API_VERSION=env('STRIPE_API_VERSION')
+if DEBUG:
+    STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET_DEV')
+else:
+    STRIPE_WEBHOOK_SECRET =  env('STRIPE_WEBHOOK_SECRET')

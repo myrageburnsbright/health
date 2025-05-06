@@ -78,7 +78,7 @@
  <script src="https://js.stripe.com/v3/"></script>
  
  <script>
-     var stripe = Stripe("STRIPE_PUBLIC_KEY_HERE");
+     var stripe = Stripe("{{stripe_public_key}}");
      var checkoutButton = document.getElementById("stripe-payment");
  
      try {
@@ -87,7 +87,7 @@
  
              checkoutButton.innerHTML = "Processing <i class='fas fa-spinner fa-spin ms-2'></i>";
  
-             fetch("/stripe_payment/BILLING_ID_HERE/", {
+             fetch("/stripe_payment/{{billing.billing_id}}/", {
                  method: "POST",
                  body: JSON.stringify({ email: email }),
              })
