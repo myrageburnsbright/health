@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
 from userauths.models import User
 
@@ -19,7 +19,7 @@ class Doctor(models.Model):
     specialization = models.CharField(max_length=100, null=True, blank=True)
     qualification = models.CharField(max_length=100, null=True, blank=True)
     year_of_exp = models.CharField(max_length=100, null=True, blank=True)
-    next_appointment_date = models.CharField(max_length=100, null=True, blank=True)
+    next_appointment_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
 
 def __str__(self):
     return f"Доктор {self.full_name}"
