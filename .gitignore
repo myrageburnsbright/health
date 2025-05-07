@@ -8,6 +8,6 @@ migrations/
 .vscode/
 .env
 .envdev
-/static/
+
 dump.rdb
 fonts/

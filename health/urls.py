@@ -8,6 +8,7 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('userauths/', include('userauths.urls', namespace='userauths')),
     path("", include("base.urls", namespace="base")),
+    path("physician/", include("physician.urls", namespace="physician")),
 ]
 
 if settings.DEBUG:

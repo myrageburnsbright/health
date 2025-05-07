@@ -21,8 +21,8 @@ class Doctor(models.Model):
     year_of_exp = models.CharField(max_length=100, null=True, blank=True)
     next_appointment_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
 
-def __str__(self):
-    return f"Доктор {self.full_name}"
+    def __str__(self):
+        return f"Доктор {self.full_name}"
 
 
 class Notification(models.Model):
@@ -38,5 +38,5 @@ class Notification(models.Model):
     seen = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
 
-def __str__(self):
-    return f"Доктор {self.doctor.full_name} - Уведомления"
+    def __str__(self):
+        return f"Доктор {self.doctor.full_name} - Уведомления"
