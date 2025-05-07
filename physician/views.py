@@ -1,3 +1,4 @@
+from math import log
 from django.conf.global_settings import TEST_NON_SERIALIZED_APPS
 from django.shortcuts import render, redirect
 from django.template import context
@@ -198,3 +199,55 @@ def payments(request):
     payments = base_models.Billing.objects.filter(appointment__doctor=doctor, status = "Оплачено")
     context = {"payments": payments}
     return render(request, "physician/payments.html", context=context)
+
+@login_required
+def notifications(request):
+    doctor = physician_models.Doctor.objects.get(user=request.user)
+    notifications = physician_models.Notification.objects.filter(doctor=doctor, seen=False)
+    context = {"notifications": notifications}
+    return render(request, "physician/notifications.html", context=context)
+
+@login_required
+def mark_as_read_notifications(request, id):
+    doctor = physician_models.Doctor.objects.get(user=request.user)
+    notification = physician_models.Notification.objects.get(id=id, doctor=doctor)
+    notification.seen = True
+    notification.save()
+    messages.success(request, "Уведомление прочитано")
+    return redirect("physician:notifications")
+
+@login_required
+def profile(request):
+    doctor = physician_models.Doctor.objects.get(user=request.user)
+
+    formatted_next_appointment_date = doctor.next_appointment_date.strftime("%Y-%m-%d") 
+
+    if request.method == "POST":
+        full_name = request.POST.get("full_name")
+        image = request.FILES.get("image")
+        phone = request.POST.get("mobile")
+        city = request.POST.get("country")
+        bio = request.POST.get("bio")
+        specialization = request.POST.get("specialization")
+        qualification = request.POST.get("qualification")
+        year_of_exp = request.POST.get("years_of_experience")
+        next_appointment_date = request.POST.get("next_available_appointment_date")
+
+        doctor.full_name = full_name
+        doctor.phone = phone
+        doctor.city = city
+        doctor.bio = bio
+        doctor.specialization = specialization
+        doctor.qualification = qualification
+        doctor.year_of_exp = year_of_exp
+        doctor.next_appointment_date = next_appointment_date
+
+        if image is not None:
+            doctor.image = image
+
+        doctor.save()
+        messages.success(request, "Профиль успешно обновлен")
+        return redirect("physician:profile")
+
+    context = {"doctor": doctor, "formatted_next_appointment_date": formatted_next_appointment_date}
+    return render(request, "physician/profile.html", context=context)
