@@ -1,16 +1,13 @@
-from math import log
-from django.conf.global_settings import TEST_NON_SERIALIZED_APPS
 from django.shortcuts import render, redirect
-from django.template import context
-import test
 
 from base import models as base_models
 
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.utils.functional import wraps
 
 from physician import models as physician_models
 from django.contrib import messages
-
 
 @login_required
 def dashboard(request):

@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from userauths.models import User
  
@@ -16,7 +17,7 @@ class Patient(models.Model):
     address = models.CharField(max_length=100, null=True, blank=True)
     gender = models.CharField(max_length=100, null=True, blank=True)
     blood_group = models.CharField(max_length=100, null=True, blank=True)
-    dob = models.CharField(max_length=100, null=True, blank=True)
+    dob = models.DateField(default=timezone.now, null=True, blank=True)
 
     def __str__(self):
         return self.full_name
